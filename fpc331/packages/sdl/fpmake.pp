@@ -19,14 +19,14 @@ begin
     P.Version:='3.3.1';
     P.SourcePath.Add('src');
     P.IncludePath.Add('src');
-    P.Dependencies.Add('x11',AllUnixOSes);
+    P.Dependencies.Add('x11',AllUnixOSes-[ohos]);
     P.Dependencies.Add('pthreads',AllUnixOSes);
     P.Dependencies.Add('morphunits',[morphos]);
     if Defaults.CPU=arm then
        P.OSes := P.OSes - [darwin];
     P.OSes := P.OSes - [iphonesim,ios,java,os2,emx,go32v2,watcom,netware,netwlibc,nativent,embedded,
                         android,amiga,aros,msdos,gba,nds,win16,atari,macosclassic,palmos,symbian,wii,
-                        freertos,zxspectrum,msxdos,amstradcpc,sinclairql,wasip1,wasip1threads,human68k,ps1,wasip2,ohos];
+                        freertos,zxspectrum,msxdos,amstradcpc,sinclairql,wasip1,wasip1threads,human68k,ps1,wasip2];
 
     T:=P.Targets.AddUnit('logger.pas');
       with T.Dependencies do
