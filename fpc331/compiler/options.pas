@@ -5850,6 +5850,10 @@ begin
       def_system_macro('FPC_INCLUDE_SOFTWARE_LONGWORD_TO_DOUBLE');
 {$endif}
 {$ifdef x86_64}
+      { harmonyos doesn't support the legacy fpu (musl has long double=double) }
+      if target_info.system=system_x86_64_harmonyos then
+        undef_system_macro('FPC_HAS_TYPE_EXTENDED')
+      else
 {$ifndef FPC_SUPPORT_X87_TYPES_ON_WIN64}
       { normally, win64 doesn't support the legacy fpu }
       if target_info.system=system_x86_64_win64 then

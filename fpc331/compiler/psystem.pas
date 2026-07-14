@@ -322,6 +322,12 @@ implementation
           pvmt_name:='pvmt';
  {$ifdef x86}
         create_fpu_types;
+        if target_info.system=system_x86_64_harmonyos then
+          begin
+            s64currencytype:=cfloatdef.create(s64currency,true);
+            pbestrealtype:=@s64floattype;
+          end
+        else
 {$ifndef FPC_SUPPORT_X87_TYPES_ON_WIN64}
         if target_info.system=system_x86_64_win64 then
           begin
@@ -713,10 +719,8 @@ implementation
         oldcurrentmodule : tmodule;
         pvmt_name : shortstring;
       begin
-{$ifndef FPC_SUPPORT_X87_TYPES_ON_WIN64}
-        if target_info.system=system_x86_64_win64 then
+        if target_info.system in [system_x86_64_harmonyos{$ifndef FPC_SUPPORT_X87_TYPES_ON_WIN64},system_x86_64_win64{$endif}] then
           pbestrealtype:=@s64floattype;
-{$endif FPC_SUPPORT_X87_TYPES_ON_WIN64}
 
         oldcurrentmodule:=current_module;
         set_current_module(nil);
