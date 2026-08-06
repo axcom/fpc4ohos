@@ -13,3 +13,10 @@
 #
 # Shared library startup code for Free Pascal. HarmonyOS target.
 #
+# NOTE: On OHOS, .init_array processing during dlopen has memory issues
+# (BSS not fully mapped, heap not ready). We MUST NOT call
+# FPC_LIB_START_HARMONYOS from .init_array. Instead, the library's
+# main() function will explicitly call FPC_LIB_MAIN_HARMONYOS.
+#
+
+.section .note.GNU-stack,"",@progbits
