@@ -38,7 +38,7 @@ procedure HiLogFatal(const Fmt: string; const Args: array of const); overload;
 
 var
   // 全局默认服务域，ArkTS 模板默认为 0，C++ NDK 模板(napi_init.cpp)默认为 0xD002D00。用户可修改
-  DefaultLogDomain: DWord = 0;
+  DefaultLogDomain: DWord = $FF00;
 
 implementation
 

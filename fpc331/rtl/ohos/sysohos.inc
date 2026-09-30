@@ -19,3 +19,5 @@ var
   operatingsystem_parameter_argv : Pointer; public name 'operatingsystem_parameter_argv';
 
   _environ: pointer external name 'environ';
+
+  HarmonyOSLibStarted: Boolean;

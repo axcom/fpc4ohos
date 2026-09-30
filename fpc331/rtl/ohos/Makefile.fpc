@@ -192,24 +192,25 @@ SYSCPUDEPS=$(addprefix $(PROCINC)/,$(CPUINCNAMES))
 # Put $(SYSTEMUNIT) unit dependencies together.
 SYSDEPS=$(SYSINCDEPS) $(SYSCPUDEPS)
 
-ifeq ($(ARCH),x86_64)
-  ASTARGET=-m64 -march=x86-64 -fPIC --target=x86_64-unknown-linux-ohos
+# Select 32/64 mode
+ifeq ($(ARCH),i386)
+  ASTARGET=--32
 endif
 
-ifeq ($(ARCH),aarch64)
-  ASTARGET=-mabi=lp64d -mcpu=cortex-a72 -march=armv8-a+simd+fp+crypto -mfpu=neon-fp-armv8 --target=aarch64-unknown-linux-ohos
+ifeq ($(ARCH),mipsel)
+  ASTARGET=-mips32 -KPIC
 endif
 
 ifeq ($(ARCH),loongarch64)
-  ASTARGET=-mabi=lp64d -march=loongarch64
+  ASTARGET=-mabi=lp64d
 endif
 
 ifeq ($(ARCH),riscv64)
-  ASTARGET=-mabi=lp64d -march=rv64imafdc
+  ASTARGET=-march=rv64imafdc
 endif
 
 ifeq ($(ARCH),arm)
-  ASTARGET=-march=armv7-a -mfloat-abi=hard -mfpu=neon-vfpv4 -meabi=5
+  ASTARGET+=-meabi=5
 endif
 
 ifneq ($(findstring $(ARCH),aarch64 x86_64 riscv64 loongarch64),)
@@ -218,7 +219,7 @@ else
   CPUBITS=32
 endif
 ifneq ($(findstring $(ARCH),aarch64 x86_64),)
-  ASTARGET+=-DCPU64
+  ASTARGET+=-Wa,-defsym,CPU$(CPUBITS)=1
 endif
 ifneq ($(findstring $(ARCH),riscv64 loongarch64),)
   ASTARGET+=--defsym CPU64=1

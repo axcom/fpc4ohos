@@ -65,6 +65,8 @@ procedure atexit(p: pointer); cdecl; external;
 
 procedure HarmonyOSLibStart; cdecl; [public, alias:'FPC_LIB_START_HARMONYOS'];
 begin
+  if HarmonyOSLibStarted then
+    Exit;
   CommonMainHarmonyOS;
   LibMainHarmonyOS;
   atexit(@fpc_lib_exit_intern);

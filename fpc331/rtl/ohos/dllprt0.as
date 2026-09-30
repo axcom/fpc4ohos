@@ -13,3 +13,19 @@
 #
 # Shared library startup code for Free Pascal. HarmonyOS target.
 #
+# The OHOS loader executes constructors registered in .init_array when a
+# shared library is dlopen()ed.  DT_INIT (set by the compiler as
+# "-init FPC_LIB_START_HARMONYOS") is NOT called for dlopen()ed
+# libraries, so the FPC runtime/unit initialization must be registered
+# here.  Otherwise System.InitCriticalSection dereferences a NIL
+# CurrentTM function pointer (SIGSEGV @ pc=0) at the first
+# TCriticalSection.Create.
+#
+/* --------------------------------------------------------- */
+  .section .init_array, "aw"
+
+.ifdef CPU64
+  .quad FPC_LIB_START_HARMONYOS
+.else
+  .long FPC_LIB_START_HARMONYOS
+.endif
