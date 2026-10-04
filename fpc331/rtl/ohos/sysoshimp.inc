@@ -67,6 +67,7 @@ procedure HarmonyOSLibStart; cdecl; [public, alias:'FPC_LIB_START_HARMONYOS'];
 begin
   if HarmonyOSLibStarted then
     Exit;
+  HarmonyOSLibStarted := True;
   CommonMainHarmonyOS;
   LibMainHarmonyOS;
   atexit(@fpc_lib_exit_intern);
